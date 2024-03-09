@@ -11,3 +11,47 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+/* input[type="text"]::-webkit-input-placeholder {
+  color: red;
+}
+
+::placeholder {
+  color: red;
+} */
+
+/* .sform {
+  height: 50px;
+  border-radius: 0;
+  background-color: #876f49;
+  color: white;
+  border-color: white;
+  border-width: 1.3px;
+}
+
+#formBasicEmail {
+  height: 50px;
+  border-radius: 0;
+  background-color: #876f49;
+  color: white;
+  border-color: white;
+  border-width: 1.3px;
+}
+
+#formBasicEmail option{
+  height: 50px;
+  border-radius: 0;
+  background-color: #876f49;
+  color: white;
+  border-color: white;
+  border-width: 1.3px;
+}
+
+#formBasicEmail:focus{
+  height: 50px;
+  border-radius: 0;
+  background-color: #876f49;
+  color: white;
+  border-color: white;
+  border-width: 1.3px;
+} */
