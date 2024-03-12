@@ -6,6 +6,7 @@ import Register from "./pages/Register";
 import Search from "./pages/Search";
 import Account from "./pages/Account";
 import Players from "./pages/Players";
+import PlayerSummary from "./pages/PlayerSummary";
 import Events from "./pages/Events";
 import News from "./pages/News";
 import Melee from "./pages/games/Melee";
@@ -26,6 +27,7 @@ function App() {
         <Route path="/search" element={<Search />} />
         <Route path="/account" element={<Account />} />
         <Route path="/players" element={<Players />} />
+        <Route path="/players/player-summary/:id" element={<PlayerSummary />} />
         <Route path="/events" element={<Events />} />
         <Route path="/news" element={<News />} />
         <Route path="/games/melee" element={<Melee />} />
