@@ -1,12 +1,14 @@
 import React from 'react'
 import Navigation from '../components/Navigation'
 import TrendingPlayers from '../components/players/TrendingPlayers'
+import PlayerFilters from '../components/players/PlayerFilters'
 
 const Players = () => {
   return (
     <div>
         <Navigation />
         <div className='container'>
+          <PlayerFilters />
           <h1>Trending players</h1>
             <div className='col'>
                 <div className='col-md-6 w-100'>

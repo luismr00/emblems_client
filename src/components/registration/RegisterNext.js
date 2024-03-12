@@ -1,9 +1,12 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import { Link } from 'react-router-dom';
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 const RegisterNext = () => {
+  const [startDate, setStartDate] = useState(new Date());
   return (
     <div>
         <div className='container-lg'>
@@ -40,7 +43,8 @@ const RegisterNext = () => {
 
           <Form.Group className="mb-3" controlId="formBasicEmail">
             <Form.Label>DOB</Form.Label>
-            <Form.Control type="text" placeholder="Enter date of birth" />
+            {/* <Form.Control type="text" placeholder="Enter date of birth" /> */}
+            <DatePicker selected={startDate} onChange={(date) => setStartDate(date)} />
           </Form.Group>
           <Form.Group className="mb-3" controlId="formBasicCheckbox">
               <Form.Check type="checkbox" label="Show on public profile" />
