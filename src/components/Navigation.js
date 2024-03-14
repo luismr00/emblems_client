@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-// import { Link } from "react-router-dom";
+import {useNavigate } from "react-router-dom";
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
 import Form from 'react-bootstrap/Form';
@@ -12,11 +12,26 @@ import LoginAndRegisterForm from './LoginAndRegisterForm';
 
 const Navigation = () => {
 
+  const navigate = useNavigate();
   // const [showLarForm, setLarShowForm] = useState(false);
+  const [searchKeyword, setSearchKeyword] = useState('');
 
   // const larForm = () => {
   //   setLarShowForm(true);
   // }
+
+  const handleSubmit = (event) => {
+    // const keyword = event.currentTarget;
+    event.preventDefault();
+    event.stopPropagation();
+    // navigate("search?" + searchKeyword);
+    navigate({
+      pathname: "/search",
+      search: "?keyword=" + searchKeyword,
+    })
+    // console.log(searchKeyword);
+
+  }
 
   return (
     // <div>
@@ -78,14 +93,16 @@ const Navigation = () => {
             </NavDropdown>
 
           </Nav>
-          <Form className="d-flex">
+          <Form className="d-flex" onSubmit={handleSubmit}>
             <Form.Control
               type="search"
               placeholder="Search"
               className="me-2"
               aria-label="Search"
+              value={searchKeyword}
+              onChange={(event) => setSearchKeyword(event.target.value)}
             />
-            <Button variant="outline-success">Search</Button>
+            <Button type='submit' variant="outline-success">Search</Button>
           </Form>
           <Nav>
             <Nav.Link href="/login">Login</Nav.Link>

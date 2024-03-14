@@ -1,5 +1,5 @@
 export const characters = {
-    ultimate: [
+    "Super Smash Bros. Ultimate": [
         "Mario",
         "Donkey Kong",
         "Link",
@@ -85,7 +85,7 @@ export const characters = {
         "Kazuya",
         "Sora"
     ],
-    Melee: [
+    "Super Smash Bros. Melee": [
         "Dr. Mario",
         "Mario",
         "Luigi",

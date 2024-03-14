@@ -2,21 +2,32 @@ import React, { useState } from 'react'
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import { us_regions } from '../../mock/regions/usRegions';
+import { characters } from '../../mock/games/characters';
 
 const PlayerFilters = () => {
 
   const [showRegion, setShowRegion] = useState("d-none");
   const [showState, setShowState] = useState("d-none");
   const [showProvince, setShowProvince] = useState("d-none");
+  const [showCharacters, setShowCharacters] = useState("d-none")
 
   const [countrySelect, setCountrySelect] = useState("All");
   const [regionSelect, setRegionSelect] = useState("All");
   const [stateSelect, setStateSelect] = useState("All");
   const [provinceSelect, setProvinceSelect] = useState("All");
+  const [gameSelect, setGameSelect] = useState("All");
   const [characterSelect, setCharacterSelect] = useState("All");
   const [scoreSelect, setScoreSelect] = useState("All");
 
   const regions = ["Region 1", "Region 2", "Region 3"];
+
+  const changedGame = (e) => {
+    if(e.target.value != "All") {
+      setShowCharacters("d-block");
+    } else {
+      setShowCharacters("d-none")
+    }
+  }
 
   const changedCountry = (e) => {
     if(e.target.value === "United States") {
@@ -58,11 +69,31 @@ const PlayerFilters = () => {
           <Form.Group className="mb-3 " controlId="formBasicEmail">
             <Form.Label>Games</Form.Label>
             
-            <Form.Select className="mb-3" id="selectForm" controlId="formBasicEmail" value={scoreSelect} onChange={(event) => setScoreSelect(event.target.value)}>
+            <Form.Select className="mb-3" id="selectForm" controlId="formBasicEmail" value={gameSelect} onChange={(event) => {setGameSelect(event.target.value); changedGame(event);}}>
               <option>All</option>
               <option>Super Smash Bros. Ultimate</option>
               <option>Super Smash Bros. Melee</option>
-              <option>More games</option>
+              <option disabled="disabled">----</option>
+              <option disabled="disabled">More games</option>
+            </Form.Select>
+          </Form.Group>
+          
+          <Form.Group className={"mb-3 " + (showCharacters)} controlId="formBasicEmail">
+            <Form.Label>Character</Form.Label>
+            
+            <Form.Select className="mb-3" id="selectForm" controlId="formBasicEmail" value={characterSelect} onChange={(event) => setCharacterSelect(event.target.value)}>
+              <option>All</option>
+              {/* {console.log(characters[gameSelect])} */}
+              {gameSelect != "All" ? characters[gameSelect].map((character) => {
+                return(
+                    <option value={character}>{character}</option>
+                );
+              }) : 
+                <option>All</option>
+              }
+              {/* <option>Character 1</option>
+              <option>Character 2</option>
+              <option>Character 3</option> */}
             </Form.Select>
           </Form.Group>
 
@@ -117,16 +148,6 @@ const PlayerFilters = () => {
             </Form.Select>
           </Form.Group>
 
-          <Form.Group className="mb-3 " controlId="formBasicEmail">
-            <Form.Label>Character</Form.Label>
-            
-            <Form.Select className="mb-3" id="selectForm" controlId="formBasicEmail" value={characterSelect} onChange={(event) => setCharacterSelect(event.target.value)}>
-              <option>All</option>
-              <option>Character 1</option>
-              <option>Character 2</option>
-              <option>Character 3</option>
-            </Form.Select>
-          </Form.Group>
 
           <Form.Group className="mb-3 " controlId="formBasicEmail">
             <Form.Label>Score</Form.Label>
