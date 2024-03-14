@@ -9,16 +9,43 @@ import NavDropdown from 'react-bootstrap/NavDropdown';
 import Login from '../pages/Login';
 import Register from '../pages/Register';
 import LoginAndRegisterForm from './LoginAndRegisterForm';
+import { useDispatch, useSelector } from 'react-redux';
+import { logout, renderProfileNavs } from '../store/authSlice';
+import { Dropdown } from 'react-bootstrap';
 
 const Navigation = () => {
 
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  // const logStatus = useSelector((state) => state.auth.isLoggedIn);
+  const showLRNav = useSelector((state) => state.auth.showLRNav);
+  const showProfileNav = useSelector((state) => state.auth.showProfileNav);
   // const [showLarForm, setLarShowForm] = useState(false);
   const [searchKeyword, setSearchKeyword] = useState('');
 
   // const larForm = () => {
   //   setLarShowForm(true);
   // }
+
+  const pfpButton = React.forwardRef(({children, onClick}, ref) => (
+    <a
+      href=""
+      ref={ref}
+      style={{textDecoration: "none", color: "black"}}
+      onClick={e => {
+        e.preventDefault();
+        onClick(e);
+      }}
+    >
+      {/* Render custom icon here */}
+      {/* &#x25bc; */}
+      <svg id="d-block nav-item dropdown" xmlns="http://www.w3.org/2000/svg" width="45" height="45" fill="currentColor" role='button' class="bi bi-person-circle ms-3" viewBox="0 0 16 16">
+        <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
+        <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1"/>
+      </svg>
+      {children}
+    </a>
+  ));
 
   const handleSubmit = (event) => {
     // const keyword = event.currentTarget;
@@ -104,14 +131,42 @@ const Navigation = () => {
             />
             <Button type='submit' variant="outline-success">Search</Button>
           </Form>
-          <Nav>
+          <Nav className={showLRNav}>
             <Nav.Link href="/login">Login</Nav.Link>
             <Nav.Link href="/register">Register</Nav.Link>
           </Nav>
-          {/* <svg xmlns="http://www.w3.org/2000/svg" width="45" height="45" fill="currentColor" role='button' class="bi bi-person-circle ms-3" viewBox="0 0 16 16">
-            <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
-            <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1"/>
-          </svg> */}
+
+          <Dropdown className={showProfileNav}>
+            <Dropdown.Toggle as={pfpButton} id="dropdown-custom-components">
+            </Dropdown.Toggle>
+
+            <Dropdown.Menu align="end">
+              <Dropdown.Item>Option 1</Dropdown.Item>
+              <Dropdown.Item>Option 2</Dropdown.Item>
+              <Dropdown.Item>Option 3</Dropdown.Item>
+              <Dropdown.Divider></Dropdown.Divider>
+              <Dropdown.Item onClick={() => {dispatch(logout()); dispatch(renderProfileNavs())}}>Logout</Dropdown.Item>
+            </Dropdown.Menu>
+          </Dropdown>
+          {/* <NavDropdown 
+            align="end" 
+            title={
+              <svg xmlns="http://www.w3.org/2000/svg" width="45" height="45" fill="currentColor" role='button' class="bi bi-person-circle ms-3" viewBox="0 0 16 16">
+                <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
+                <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1"/>
+              </svg>
+            } 
+            // as={pfpButton}
+            class="nav-link"
+            id="navbarScrollingDropdown" 
+            className={showProfileNav}
+          >
+            <NavDropdown.Item>some option</NavDropdown.Item>
+            <NavDropdown.Item>some option</NavDropdown.Item>
+            <NavDropdown.Item>some option</NavDropdown.Item>
+            <NavDropdown.Divider />
+            <NavDropdown.Item onClick={() => {dispatch(logout()); dispatch(renderProfileNavs())}}>Logout</NavDropdown.Item>
+          </NavDropdown> */}
         </Navbar.Collapse>
       </Container>
     </Navbar>
