@@ -141,9 +141,10 @@ const Navigation = () => {
             </Dropdown.Toggle>
 
             <Dropdown.Menu align="end">
-              <Dropdown.Item>Option 1</Dropdown.Item>
-              <Dropdown.Item>Option 2</Dropdown.Item>
-              <Dropdown.Item>Option 3</Dropdown.Item>
+              <Dropdown.Item>View profile</Dropdown.Item>
+              <Dropdown.Item href='/account/manage'>Manage account</Dropdown.Item>
+              <Dropdown.Item>Manage payment information</Dropdown.Item>
+              <Dropdown.Item>Event import - TOs ONLY</Dropdown.Item>
               <Dropdown.Divider></Dropdown.Divider>
               <Dropdown.Item onClick={() => {dispatch(logout()); dispatch(renderProfileNavs())}}>Logout</Dropdown.Item>
             </Dropdown.Menu>

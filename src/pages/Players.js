@@ -1,7 +1,8 @@
 import React from 'react'
 import Navigation from '../components/Navigation'
-import TrendingPlayers from '../components/players/TrendingPlayers'
+import PlayerPH from '../components/PlayerPH'
 import PlayerFilters from '../components/players/PlayerFilters'
+import { trendingPlayers } from '../mock/trendingPlayersData'
 
 const Players = () => {
   return (
@@ -22,7 +23,7 @@ const Players = () => {
                 </div>
             </div>
           </div>
-        <TrendingPlayers />
+        <PlayerPH players={trendingPlayers} />
     </div>
   )
 }

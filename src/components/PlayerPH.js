@@ -1,14 +1,14 @@
 import React from 'react'
-import {trendingPlayers} from '../../mock/trendingPlayersData'
+// import {trendingPlayers} from '../mock/trendingPlayersData'
 
 // export default trendingPlayers;
 
-const TrendingPlayers = () => {
+const TrendingPlayers = (props) => {
   return (
     <div>
         <div className='container'>
             <div className='col'>
-                {trendingPlayers.map((player) => {
+                {props.players.map((player) => {
                     return (
                         <div className='col-md-6 w-100'>
                             <div className='parent-div d-flex flex-row justify-content-between bg-light'>
