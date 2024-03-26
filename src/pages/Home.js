@@ -6,7 +6,9 @@ const Home = () => {
   return (
     <div>
         <Navigation />
-        <div>Home</div>
+        <div className=''>
+          <p>Home</p>
+        </div>
     </div>
   )
 }

@@ -1,0 +1,42 @@
+// 1. Include functions first (so you can manipulate colors, SVGs, calc, etc)
+@import "../../node_modules/bootstrap/scss/functions";
+
+// 2. Include any default variable overrides here
+
+$body-bg: #F0EAD6;
+$primary: #E68000;
+$secondary: #FFB65A;
+$info: #160E38;
+$dark: #151118;
+$success: #00C24E;
+$danger: #C51818;
+
+$custom-width: 30%;
+
+$grid-widths: (
+  25: 25%,
+  50: 50%,
+  75: 75%,
+  100: 100%,
+  custom: $custom-width // Add your custom width here
+);
+
+.w-30 {
+    width: $custom-width;
+}
+
+
+// 3. Include remainder of required Bootstrap stylesheets
+@import "../../node_modules/bootstrap/scss/variables";
+@import "../../node_modules/bootstrap/scss/mixins";
+
+// 4. Include any optional Bootstrap components as you like
+// @import "../../node_modules/bootstrap/scss/root";
+@import "../../node_modules/bootstrap/scss/reboot";
+@import "../../node_modules/bootstrap/scss/type";
+@import "../../node_modules/bootstrap/scss/images";
+@import "../../node_modules/bootstrap/scss/containers";
+// @import "../../node_modules/bootstrap/scss/grid";
+@import "../../node_modules/bootstrap/scss/bootstrap";
+
+

@@ -15,11 +15,11 @@ const Dashboard = () => {
             info: ["Rank", 69]
         },
         {
-            players: "Player 3",
+            player: "Player 3",
             info: ["Emblems Value", 42]
         },
         {
-            players: "Player 4",
+            player: "Player 4",
             info: ["My Emblems", 3]
         },
     ],
@@ -33,11 +33,11 @@ const Dashboard = () => {
             info: ["Rank", 69]
         },
         {
-            players: "Player 3",
+            player: "Player 3",
             info: ["Emblems Value", 42]
         },
         {
-            players: "Player 4",
+            player: "Player 4",
             info: ["My Emblems", 3]
         },
     ],
@@ -51,11 +51,11 @@ const Dashboard = () => {
             info: ["Rank", 69]
         },
         {
-            players: "Player 3",
+            player: "Player 3",
             info: ["Emblems Value", 42]
         },
         {
-            players: "Player 4",
+            player: "Player 4",
             info: ["My Emblems", 3]
         },
     ],
@@ -69,11 +69,11 @@ const Dashboard = () => {
             info: ["Rank", 69]
         },
         {
-            players: "Player 3",
+            player: "Player 3",
             info: ["Emblems Value", 42]
         },
         {
-            players: "Player 4",
+            player: "Player 4",
             info: ["My Emblems", 3]
         },
     ],
@@ -84,12 +84,14 @@ const Dashboard = () => {
     <div>
         <Navigation />
         <div className='container'>
-            <h2>Dashboard</h2>
-            {widgets.map((widget_data) => {
-                return (
-                    <Widget data={widget_data}/>
-                );
-            })}
+            <h2 className='text-center mt-4 mb-4'>Dashboard</h2>
+            <div className='d-flex flex-wrap justify-content-between'>
+                {widgets.map((widget_data) => {
+                    return (
+                        <Widget data={widget_data}/>
+                    );
+                })}
+            </div>
         </div>
     </div>
   )
