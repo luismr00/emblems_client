@@ -16,12 +16,14 @@ import SeasonRosters from "./pages/fantasy/SeasonRosters";
 import CreditMoneyExchange from "./pages/emblems/CreditMoneyExchange";
 import Wallet from "./pages/emblems/Wallet";
 import TrendsAndInsights from "./pages/emblems/TrendsAndInsights";
+import Dashboard from "./pages/Dashboard";
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/search" element={<Search />} />
