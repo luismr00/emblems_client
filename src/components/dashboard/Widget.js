@@ -5,11 +5,11 @@ const Widget = (props) => {
   let bgColor = false
 
   return (
-    <div className='rounded-2 mb-5 w-30 ms-3 me-3'>
+    <div className='rounded-2 mb-4 w-30 ms-3 me-3'>
         <div className='bg-primary rounded-top d-flex justify-content-center align-items-center' style={{height: '75px'}}>
             <h3 className='text-center text-white'>Rising Players</h3>
         </div>
-        <div className='bg-info d-flex justify-content-center align-items-center' style={{height: '55px'}}>
+        <div className='bg-info d-flex justify-content-center align-items-center' style={{height: '55px', cursor: 'pointer'}}>
             <p className='text-center text-white'>Filters</p>
         </div>
         <div>
