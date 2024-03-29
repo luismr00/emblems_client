@@ -1,10 +1,19 @@
 import React from 'react'
 
-const CustomWidget = () => {
+const CustomWidget = ({handleEditClick, isEditMode}) => {
   return (
-    <div className='bg-white d-flex justify-content-center flex-column align-items-center rounded-2 mb-4 w-30 ms-3 me-3' style={{height: '505px'}}>
-        <button type='button' className='btn btn-info btn-lg mt-2 mb-2' >Add Widget</button>
-        <button type='button' className='btn btn-info btn-lg mt-2 mb-2' >Edit Widget</button>
+    <div className='bg-white rounded-2 mb-4 w-30 ms-3 me-3'>
+      {isEditMode ? (
+        <div className='d-flex flex-column justify-content-center align-items-center' style={{height: '505px'}}>
+        <button type='button' className='btn btn-dark w-50 mt-2 mb-2' onClick={() => handleEditClick()}>Cancel</button>
+        <button type='button' className='btn btn-success w-50 mt-2 mb-2' >Save</button>
+      </div>
+      ) : (
+        <div className='d-flex flex-column justify-content-center align-items-center' style={{height: '505px'}}>
+        <button type='button' className='btn btn-info w-50 mt-2 mb-2' >Add Widget</button>
+        <button type='button' className='btn btn-info w-50 mt-2 mb-2' onClick={() => handleEditClick()}>Edit Widget</button>
+      </div>
+      )}
     </div>
   )
 }
