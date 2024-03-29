@@ -6,7 +6,7 @@ import TestWidgetsDnD from '../components/DnD_Tests/TestWidgetsDnD';
 const Home = () => {
   return (
     <div>
-        {/* <Navigation /> */}
+        <Navigation />
         <TestWidgetsDnD />
         {/* <div className=''>
           <p>Home</p>

@@ -108,6 +108,10 @@ const Dashboard = () => {
     setIsEditMode(!isEditMode);
   }
 
+  const handleCancelSortable = () => {
+    setWidgets(mock_data);
+  }
+
   const handleDelete = (id) => {
     setWidgets(widgets.filter(item => item.id !== id));
   }
@@ -156,7 +160,7 @@ const Dashboard = () => {
                                 );
                             })}
                         </SortableContext>
-                        <CustomWidget isEditMode={isEditMode} handleEditClick={handleEditClick}/>
+                        <CustomWidget isEditMode={isEditMode} handleEditClick={handleEditClick} handleCancelSortable={handleCancelSortable}/>
                     </div>
                 </DndContext>
             ) : (
@@ -166,7 +170,7 @@ const Dashboard = () => {
                                 <Widget isEditMode={isEditMode} widgetData={widget.data} title={widget.name} id={widget.id} key={widget.id} onDelete={handleDelete} />
                             );
                         })}
-                        <CustomWidget isEditMode={isEditMode} handleEditClick={handleEditClick}/>
+                        <CustomWidget isEditMode={isEditMode} handleEditClick={handleEditClick} handleCancelSortable={handleCancelSortable}/>
                 </div>
             )}
         </div>
