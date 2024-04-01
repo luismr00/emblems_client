@@ -31,7 +31,7 @@ const Navigation = () => {
     <a
       href=""
       ref={ref}
-      style={{textDecoration: "none", color: "black"}}
+      style={{textDecoration: "none"}}
       onClick={e => {
         e.preventDefault();
         onClick(e);
@@ -71,7 +71,7 @@ const Navigation = () => {
 
     // </div>
 
-    <Navbar expand="lg" className="bg-body-tertiary">
+    <Navbar expand="lg" bg='dark' data-bs-theme="dark" sticky='top'>
       <Container fluid>
         <Navbar.Brand href="/">EMBLEMS.GG</Navbar.Brand>
         <Navbar.Toggle aria-controls="navbarScroll" />

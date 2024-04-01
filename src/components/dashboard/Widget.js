@@ -16,8 +16,8 @@ const Widget = ({ id, title, widgetData, onDelete, isEditMode }) => {
     };
 
     return (
-        <div className='rounded-2 mb-4 w-30 ms-3 me-3'>
-            <div ref={setNodeRef} {...attributes} style={style}>
+        <div className='rounded-2 shadow mb-4 w-30 ms-3 me-3'>
+            <div ref={setNodeRef} {...attributes} style={style} >
                 <div className={isEditMode ? 'position-relative' : 'position-relative d-none'}>
                     <div className='bg-danger rounded-circle d-flex justify-content-center position-absolute' style={{ width: '25px', right: -10, top: -10, cursor: 'pointer' }} onClick={handleDelete}>
                         <p className='text-white'>-</p>

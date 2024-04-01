@@ -2,7 +2,7 @@ import React from 'react'
 
 const CustomWidget = ({handleEditClick, handleCancelSortable, isEditMode}) => {
   return (
-    <div className='bg-white rounded-2 mb-4 w-30 ms-3 me-3'>
+    <div className='bg-white rounded-2 shadow mb-4 w-30 ms-3 me-3'>
       {isEditMode ? (
         <div className='d-flex flex-column justify-content-center align-items-center' style={{height: '505px'}}>
         <button type='button' className='btn btn-dark w-50 mt-2 mb-2' onClick={() => {handleEditClick(); handleCancelSortable()}}>Cancel</button>
