@@ -13,19 +13,37 @@ const mock_data = [
     data: [
         {
             player: "Player 1",
-            info: ["Score", 1234]
+            info: [
+              ["Score", 172],
+              ["Game", "SSBM"],
+              ["My Emblems", 8],
+              ["Emblems Value", 76],
+              ["Rank", 69]
+            ]
         },
         {
             player: "Player 2",
-            info: ["Rank", 69]
+            info: [
+              ["Game", "SSBU"],
+              ["My Emblems", 5]
+            ]
         },
         {
             player: "Player 3",
-            info: ["Emblems Value", 42]
+            info: [
+              ["Emblems Value", 42],
+              ["Rank", 349],
+              ["Game", "Strife"],
+              ["My Emblems", 3]
+            ]
         },
         {
             player: "Player 4",
-            info: ["My Emblems", 3]
+            info: [
+              ["Game", "NASB"],
+              ["Rank", 201],
+              ["Score", 978]
+            ]
         },
     ]
   },
@@ -35,19 +53,19 @@ const mock_data = [
     data: [
         {
             player: "Player 1",
-            info: ["Score", 1234]
+            info: [["Score", 1234]]
         },
         {
             player: "Player 2",
-            info: ["Rank", 69]
+            info: [["Rank", 69]]
         },
         {
             player: "Player 3",
-            info: ["Emblems Value", 42]
+            info: [["Emblems Value", 42]]
         },
         {
             player: "Player 4",
-            info: ["My Emblems", 3]
+            info: [["My Emblems", 3]]
         },
     ]
   },
@@ -57,19 +75,19 @@ const mock_data = [
     data: [
         {
             player: "Player 1",
-            info: ["Score", 1234]
+            info: [["Score", 1234]]
         },
         {
             player: "Player 2",
-            info: ["Rank", 69]
+            info: [["Rank", 69]]
         },
         {
             player: "Player 3",
-            info: ["Emblems Value", 42]
+            info: [["Emblems Value", 42]]
         },
         {
             player: "Player 4",
-            info: ["My Emblems", 3]
+            info: [["My Emblems", 3]]
         },
     ]
   },
@@ -79,19 +97,19 @@ const mock_data = [
     data: [
         {
             player: "Player 1",
-            info: ["Score", 1234]
+            info: [["Score", 1234]]
         },
         {
             player: "Player 2",
-            info: ["Rank", 69]
+            info: [["Rank", 69]]
         },
         {
             player: "Player 3",
-            info: ["Emblems Value", 42]
+            info: [["Emblems Value", 42]]
         },
         {
             player: "Player 4",
-            info: ["My Emblems", 3]
+            info: [["My Emblems", 3]]
         },
     ]
   },

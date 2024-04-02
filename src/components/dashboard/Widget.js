@@ -1,6 +1,7 @@
 import React from 'react';
 import { SortableContext, useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
+import WidgetRow from './WidgetRow';
 
 const Widget = ({ id, title, widgetData, onDelete, isEditMode }) => {
     const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({ id });
@@ -37,10 +38,7 @@ const Widget = ({ id, title, widgetData, onDelete, isEditMode }) => {
                                     <img src='https://images.start.gg/images/user/11492/image-3dd9789eb28e9bef8b6f8b572dd23389.jpeg?ehk=yWoe%2B5bbozHkCky6qBhZxdf8SPxOjJkqVd4FM9xcjts%3D&ehkOptimized=1vKUZGZtc7wtkl4zLyUzd9JhAoO1sJ5RzQSvqHc61EA%3D' style={{ maxWidth: '85px', height: '75px' }} />
                                     <div className='flex-grow-1 d-flex flex-column justify-content-between p-2'>
                                         <h4>{data.player}</h4>
-                                        <div className='d-flex justify-content-between'>
-                                            <p>{data.info[0]}</p>
-                                            <p className='text-primary'>{data.info[1]}</p>
-                                        </div>
+                                        <WidgetRow data={data.info} />
                                     </div>
                                 </div>
                             );
