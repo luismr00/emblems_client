@@ -25,7 +25,10 @@ const mock_data = [
             player: "Player 2",
             info: [
               ["Game", "SSBU"],
-              ["My Emblems", 5]
+              ["My Emblems", 5],
+              ["Rank", 502],
+              ["Score", 2],
+              ["Emblems Value", 34]
             ]
         },
         {
@@ -34,15 +37,18 @@ const mock_data = [
               ["Emblems Value", 42],
               ["Rank", 349],
               ["Game", "Strife"],
-              ["My Emblems", 3]
+              ["My Emblems", 3],
+              ["Score", 45]
             ]
         },
         {
             player: "Player 4",
             info: [
               ["Game", "NASB"],
-              ["Rank", 201],
-              ["Score", 978]
+              ["Rank", 50],
+              ["Score", 5678],
+              ["My Emblems", 87],
+              ["Emblem Value", 190]
             ]
         },
     ]
@@ -51,67 +57,139 @@ const mock_data = [
     id: 2,
     name: 'Tracked Players',
     data: [
-        {
-            player: "Player 1",
-            info: [["Score", 1234]]
-        },
-        {
-            player: "Player 2",
-            info: [["Rank", 69]]
-        },
-        {
-            player: "Player 3",
-            info: [["Emblems Value", 42]]
-        },
-        {
-            player: "Player 4",
-            info: [["My Emblems", 3]]
-        },
-    ]
+      {
+          player: "Player 1",
+          info: [
+            ["Score", 172],
+            ["Game", "SSBM"],
+            ["My Emblems", 8],
+            ["Emblems Value", 76],
+            ["Rank", 69]
+          ]
+      },
+      {
+          player: "Player 2",
+          info: [
+            ["Game", "SSBU"],
+            ["My Emblems", 5],
+            ["Rank", 502],
+            ["Score", 2],
+            ["Emblems Value", 34]
+          ]
+      },
+      {
+          player: "Player 3",
+          info: [
+            ["Emblems Value", 42],
+            ["Rank", 349],
+            ["Game", "Strife"],
+            ["My Emblems", 3],
+            ["Score", 45]
+          ]
+      },
+      {
+          player: "Player 4",
+          info: [
+            ["Game", "NASB"],
+            ["Rank", 50],
+            ["Score", 5678],
+            ["My Emblems", 87],
+            ["Emblem Value", 190]
+          ]
+      },
+  ]
   },
   {
     id: 3,
     name: 'My Recent Events',
     data: [
-        {
-            player: "Player 1",
-            info: [["Score", 1234]]
-        },
-        {
-            player: "Player 2",
-            info: [["Rank", 69]]
-        },
-        {
-            player: "Player 3",
-            info: [["Emblems Value", 42]]
-        },
-        {
-            player: "Player 4",
-            info: [["My Emblems", 3]]
-        },
-    ]
+      {
+          player: "Player 1",
+          info: [
+            ["Score", 172],
+            ["Game", "SSBM"],
+            ["My Emblems", 8],
+            ["Emblems Value", 76],
+            ["Rank", 69]
+          ]
+      },
+      {
+          player: "Player 2",
+          info: [
+            ["Game", "SSBU"],
+            ["My Emblems", 5],
+            ["Rank", 502],
+            ["Score", 2],
+            ["Emblems Value", 34]
+          ]
+      },
+      {
+          player: "Player 3",
+          info: [
+            ["Emblems Value", 42],
+            ["Rank", 349],
+            ["Game", "Strife"],
+            ["My Emblems", 3],
+            ["Score", 45]
+          ]
+      },
+      {
+          player: "Player 4",
+          info: [
+            ["Game", "NASB"],
+            ["Rank", 50],
+            ["Score", 5678],
+            ["My Emblems", 87],
+            ["Emblem Value", 190]
+          ]
+      },
+  ]
   },
   {
     id: 4,
     name: 'Top Emblems',
     data: [
-        {
-            player: "Player 1",
-            info: [["Score", 1234]]
-        },
-        {
-            player: "Player 2",
-            info: [["Rank", 69]]
-        },
-        {
-            player: "Player 3",
-            info: [["Emblems Value", 42]]
-        },
-        {
-            player: "Player 4",
-            info: [["My Emblems", 3]]
-        },
-    ]
+      {
+          player: "Player 1",
+          info: [
+            ["Score", 172],
+            ["Game", "SSBM"],
+            ["My Emblems", 8],
+            ["Emblems Value", 76],
+            ["Rank", 69]
+          ]
+      },
+      {
+          player: "Player 2",
+          info: [
+            ["Game", "SSBU"],
+            ["My Emblems", 5],
+            ["Rank", 502],
+            ["Score", 2],
+            ["Emblems Value", 34]
+          ]
+      },
+      {
+          player: "Player 3",
+          info: [
+            ["Emblems Value", 42],
+            ["Rank", 349],
+            ["Game", "Strife"],
+            ["My Emblems", 3],
+            ["Score", 45]
+          ]
+      },
+      {
+          player: "Player 4",
+          info: [
+            ["Game", "NASB"],
+            ["Rank", 50],
+            ["Score", 5678],
+            ["My Emblems", 87],
+            ["Emblem Value", 190]
+          ]
+      },
+  ]
   },
  
   
