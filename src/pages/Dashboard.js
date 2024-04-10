@@ -199,6 +199,8 @@ const Dashboard = () => {
 
   const [widgets, setWidgets] = useState(mock_data);
   const [isEditMode, setIsEditMode] = useState(false);
+  const [isAddingWidget, setIsAddingWidget] = useState(false);
+  const [widgetSelected, setWidgetSelected] = useState('');
 
   const handleEditClick = () => {
     setIsEditMode(!isEditMode);
@@ -237,10 +239,6 @@ const Dashboard = () => {
     })
   )
 
-  const someFunction = () => {
-    console.log('hello');
-  }
-
   return (
     <div>
         <Navigation />
@@ -266,7 +264,7 @@ const Dashboard = () => {
                                 <Widget isEditMode={isEditMode} widgetData={widget.data} title={widget.name} id={widget.id} key={widget.id} onDelete={handleDelete} />
                             );
                         })}
-                        <CustomWidget isEditMode={isEditMode} handleEditClick={handleEditClick} handleCancelSortable={handleCancelSortable}/>
+                        <CustomWidget isEditMode={isEditMode} handleEditClick={handleEditClick} handleCancelSortable={handleCancelSortable} isAddingWidget={isAddingWidget} setIsAddingWidget={setIsAddingWidget} widgetSelected={widgetSelected} setWidgetSelected={setWidgetSelected}/>
                 </div>
             )}
         </div>
