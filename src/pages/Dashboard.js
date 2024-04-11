@@ -55,7 +55,7 @@ const mock_data = [
   },
   {
     id: 2,
-    name: 'Tracked Players',
+    name: 'Top Emblems',
     data: [
       {
           player: "Player 1",
@@ -101,7 +101,7 @@ const mock_data = [
   },
   {
     id: 3,
-    name: 'My Recent Events',
+    name: 'Upcoming Events',
     data: [
       {
           player: "Player 1",
@@ -147,7 +147,7 @@ const mock_data = [
   },
   {
     id: 4,
-    name: 'Top Emblems',
+    name: 'Recent Upsets',
     data: [
       {
           player: "Player 1",

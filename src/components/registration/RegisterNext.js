@@ -4,9 +4,36 @@ import Form from 'react-bootstrap/Form';
 import { Link } from 'react-router-dom';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import Select from 'react-select';
 
 const RegisterNext = () => {
+  
   const [startDate, setStartDate] = useState(new Date());
+
+  const selectorStyles = {
+    option: (styles, { isFocused, isSelected }) => {
+        return {
+            ...styles,
+            backgroundColor: isSelected ? "#E68000" : isFocused ? "#FFB65A" : undefined
+        };
+    },
+    control: (baseStyles, isFocused, isSelected) => { 
+        return {
+            ...baseStyles,
+            borderColor: '#CCCCCC',
+            '&:hover': {
+                borderColor: '#FFB65A', // Change hover color based on focus state
+                boxShadow: '0px 0px 3px 2px #FFB65A',
+            },
+            backgroundColor: null
+        };
+    },
+    indicatorSeparator: (provided) => ({
+        ...provided,
+        backgroundColor: undefined
+    }),
+  };
+
   return (
     <div>
         <div className='container-lg'>
@@ -52,12 +79,13 @@ const RegisterNext = () => {
 
           <Form.Group className="mb-3" controlId="formBasicEmail">
             <Form.Label>Pronouns</Form.Label>
-            <Form.Select className="mb-3" id="selectForm" controlId="formBasicEmail">
+            <Select className='bg-body rounded' styles={selectorStyles}/>
+            {/* <Form.Select className="mb-3" id="selectForm" controlId="formBasicEmail">
               <option disabled selected hidden> Select Pronouns </option>
               <option>He/Him</option>
               <option>She/Her</option>
               <option>They/Them</option>
-            </Form.Select>
+            </Form.Select> */}
           </Form.Group>
           <Form.Group className="mb-3" controlId="formBasicCheckbox">
               <Form.Check type="checkbox" label="Show on public profile" />
