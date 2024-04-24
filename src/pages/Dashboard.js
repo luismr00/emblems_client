@@ -4,6 +4,7 @@ import Widget from '../components/dashboard/Widget';
 import CustomWidget from '../components/dashboard/CustomWidget';
 import { DndContext, KeyboardSensor, PointerSensor, TouchSensor, closestCorners, useSensor, useSensors } from '@dnd-kit/core';
 import { SortableContext, arrayMove, horizontalListSortingStrategy, sortableKeyboardCoordinates } from '@dnd-kit/sortable';
+import { DatePicker } from '@mui/x-date-pickers';
 
 
 const mock_data = [
@@ -14,8 +15,8 @@ const mock_data = [
         {
             player: "Player 1",
             info: [
-              ["Score", 172],
               ["Game", "SSBM"],
+              ["Score", 172],
               ["My Emblems", 8],
               ["Emblems Value", 76],
               ["Rank", 69]
@@ -25,30 +26,30 @@ const mock_data = [
             player: "Player 2",
             info: [
               ["Game", "SSBU"],
-              ["My Emblems", 5],
-              ["Rank", 502],
               ["Score", 2],
-              ["Emblems Value", 34]
+              ["My Emblems", 5],
+              ["Emblems Value", 34],
+              ["Rank", 502],
             ]
         },
         {
             player: "Player 3",
             info: [
+              ["Game", "Strife"],
+              ["Score", 45],
+              ["My Emblems", 3],
               ["Emblems Value", 42],
               ["Rank", 349],
-              ["Game", "Strife"],
-              ["My Emblems", 3],
-              ["Score", 45]
             ]
         },
         {
             player: "Player 4",
             info: [
               ["Game", "NASB"],
-              ["Rank", 50],
               ["Score", 5678],
               ["My Emblems", 87],
-              ["Emblem Value", 190]
+              ["Emblem Value", 190],
+              ["Rank", 50],
             ]
         },
     ]
@@ -60,8 +61,8 @@ const mock_data = [
       {
           player: "Player 1",
           info: [
-            ["Score", 172],
             ["Game", "SSBM"],
+            ["Score", 172],
             ["My Emblems", 8],
             ["Emblems Value", 76],
             ["Rank", 69]
@@ -71,30 +72,30 @@ const mock_data = [
           player: "Player 2",
           info: [
             ["Game", "SSBU"],
-            ["My Emblems", 5],
-            ["Rank", 502],
             ["Score", 2],
-            ["Emblems Value", 34]
+            ["My Emblems", 5],
+            ["Emblems Value", 34],
+            ["Rank", 502],
           ]
       },
       {
           player: "Player 3",
           info: [
+            ["Game", "Strife"],
+            ["Score", 45],
+            ["My Emblems", 3],
             ["Emblems Value", 42],
             ["Rank", 349],
-            ["Game", "Strife"],
-            ["My Emblems", 3],
-            ["Score", 45]
           ]
       },
       {
           player: "Player 4",
           info: [
             ["Game", "NASB"],
-            ["Rank", 50],
             ["Score", 5678],
             ["My Emblems", 87],
-            ["Emblem Value", 190]
+            ["Emblem Value", 190],
+            ["Rank", 50],
           ]
       },
   ]
@@ -106,8 +107,8 @@ const mock_data = [
       {
           player: "Player 1",
           info: [
-            ["Score", 172],
             ["Game", "SSBM"],
+            ["Score", 172],
             ["My Emblems", 8],
             ["Emblems Value", 76],
             ["Rank", 69]
@@ -117,30 +118,30 @@ const mock_data = [
           player: "Player 2",
           info: [
             ["Game", "SSBU"],
-            ["My Emblems", 5],
-            ["Rank", 502],
             ["Score", 2],
-            ["Emblems Value", 34]
+            ["My Emblems", 5],
+            ["Emblems Value", 34],
+            ["Rank", 502],
           ]
       },
       {
           player: "Player 3",
           info: [
+            ["Game", "Strife"],
+            ["Score", 45],
+            ["My Emblems", 3],
             ["Emblems Value", 42],
             ["Rank", 349],
-            ["Game", "Strife"],
-            ["My Emblems", 3],
-            ["Score", 45]
           ]
       },
       {
           player: "Player 4",
           info: [
             ["Game", "NASB"],
-            ["Rank", 50],
             ["Score", 5678],
             ["My Emblems", 87],
-            ["Emblem Value", 190]
+            ["Emblem Value", 190],
+            ["Rank", 50],
           ]
       },
   ]
@@ -152,8 +153,8 @@ const mock_data = [
       {
           player: "Player 1",
           info: [
-            ["Score", 172],
             ["Game", "SSBM"],
+            ["Score", 172],
             ["My Emblems", 8],
             ["Emblems Value", 76],
             ["Rank", 69]
@@ -163,30 +164,30 @@ const mock_data = [
           player: "Player 2",
           info: [
             ["Game", "SSBU"],
-            ["My Emblems", 5],
-            ["Rank", 502],
             ["Score", 2],
-            ["Emblems Value", 34]
+            ["My Emblems", 5],
+            ["Emblems Value", 34],
+            ["Rank", 502],
           ]
       },
       {
           player: "Player 3",
           info: [
+            ["Game", "Strife"],
+            ["Score", 45],
+            ["My Emblems", 3],
             ["Emblems Value", 42],
             ["Rank", 349],
-            ["Game", "Strife"],
-            ["My Emblems", 3],
-            ["Score", 45]
           ]
       },
       {
           player: "Player 4",
           info: [
             ["Game", "NASB"],
-            ["Rank", 50],
             ["Score", 5678],
             ["My Emblems", 87],
-            ["Emblem Value", 190]
+            ["Emblem Value", 190],
+            ["Rank", 50],
           ]
       },
   ]
@@ -201,6 +202,7 @@ const Dashboard = () => {
   const [isEditMode, setIsEditMode] = useState(false);
   const [isAddingWidget, setIsAddingWidget] = useState(false);
   const [widgetSelected, setWidgetSelected] = useState('');
+  const [timers, setTimers] = useState(true);
 
   const handleEditClick = () => {
     setIsEditMode(!isEditMode);
@@ -242,6 +244,7 @@ const Dashboard = () => {
   return (
     <div>
         <Navigation />
+        {/* <DatePicker className='bg-white' style={{borderColor: 'red'}} /> */}
         <div className='container'>
             <h2 className='text-center mt-4 mb-4'>Dashboard</h2>
             {isEditMode ? (
@@ -250,7 +253,7 @@ const Dashboard = () => {
                         <SortableContext items={widgets} strategy={horizontalListSortingStrategy}>
                             {widgets.map((widget) => {
                                 return (
-                                    <Widget isEditMode={isEditMode} widgetData={widget.data} title={widget.name} id={widget.id} key={widget.id} onDelete={handleDelete} />
+                                    <Widget isEditMode={isEditMode} widgetData={widget.data} title={widget.name} id={widget.id} key={widget.id} onDelete={handleDelete} isAddingWidget={isAddingWidget} setTimers={setTimers}/>
                                 );
                             })}
                         </SortableContext>
@@ -261,7 +264,7 @@ const Dashboard = () => {
                 <div className='d-flex flex-wrap'>
                         {widgets.map((widget) => {
                             return (
-                                <Widget isEditMode={isEditMode} widgetData={widget.data} title={widget.name} id={widget.id} key={widget.id} onDelete={handleDelete} />
+                                <Widget isEditMode={isEditMode} widgetData={widget.data} title={widget.name} id={widget.id} key={widget.id} onDelete={handleDelete} isAddingWidget={isAddingWidget} timers={timers} setTimers={setTimers} />
                             );
                         })}
                         <CustomWidget isEditMode={isEditMode} handleEditClick={handleEditClick} handleCancelSortable={handleCancelSortable} isAddingWidget={isAddingWidget} setIsAddingWidget={setIsAddingWidget} widgetSelected={widgetSelected} setWidgetSelected={setWidgetSelected}/>

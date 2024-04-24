@@ -11,18 +11,23 @@ $dark: #151118;
 $success: #00C24E;
 $danger: #C51818;
 
-$custom-width: 30%;
+$custom-width-30: 30%;
+$custom-width-35: 35%;
 
 $grid-widths: (
   25: 25%,
   50: 50%,
   75: 75%,
   100: 100%,
-  custom: $custom-width // Add your custom width here
+  custom: $custom-width-30, $custom-width-35: 35%  // Add your custom width here
 );
 
 .w-30 {
-    width: $custom-width;
+    width: $custom-width-30;
+}
+
+.w-35 {
+  width: $custom-width-35;
 }
 
 

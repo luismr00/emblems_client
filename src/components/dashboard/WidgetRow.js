@@ -32,13 +32,13 @@
 import React, { useState, useEffect } from 'react';
 import '../../css/animations.css'; // Import the CSS file containing animations
 
-const WidgetRow = ({ data, isEditMode }) => {
+const WidgetRow = ({ data, timers }) => {
     const [currentInfoIndex, setCurrentInfoIndex] = useState(0);
     const [isFadingOut, setIsFadingOut] = useState(false);
   
     // All timer functions must go under useEffect if ever used or it will create bugs
     useEffect(() => {
-      if (!isEditMode) {
+      if (timers) {
         // You can remove this condition below later if all data will be greater leangth than 1
         if (data.length > 1) {
         const intervalId = setInterval(() => {
@@ -50,19 +50,19 @@ const WidgetRow = ({ data, isEditMode }) => {
               prevIndex === data.length - 1 ? 0 : prevIndex + 1
             );
             setIsFadingOut(false); // Stop fading out
-          }, 500); // Wait for fade out animation duration
-        }, 5000);
+          }, 800); // Wait for fade out animation duration
+        }, 8000);
   
         // Clear the interval when the component unmounts
         return () => clearInterval(intervalId);
         }
       }
-    }, [isEditMode]);
+    }, [timers]);
   
     const currentInfo = data[currentInfoIndex];
   
     return (
-      <div className={`d-flex justify-content-between ${data.length > 1 && !isEditMode && (isFadingOut ? 'fade-out' : 'fade-in')}`}>
+      <div className={`d-flex justify-content-between ${data.length > 1 && timers && (isFadingOut ? 'fade-out' : 'fade-in')}`}>
         <p>{currentInfo[0]}</p>
         <p className='text-primary'>{currentInfo[1]}</p>
       </div>

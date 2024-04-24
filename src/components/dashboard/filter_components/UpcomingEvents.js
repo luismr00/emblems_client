@@ -1,3 +1,4 @@
+import { DatePicker } from '@mui/x-date-pickers'
 import React from 'react'
 import Select from 'react-select'
 
@@ -11,9 +12,9 @@ const TrackedPlayers = ({setEditFilters}) => {
             <h5 className='mb-1'>Date</h5>
             <div className='d-flex justify-content-between align-items-center mb-2'>
                 <p>Between</p>
-                <Select className='w-30'/>
+                <DatePicker slotProps={{ textField: { size: 'small' } }} className='w-35 bg-white rounded'/>
                 <p>and</p>
-                <Select className='w-30'/>
+                <DatePicker slotProps={{ textField: { size: 'small' } }} className='w-35 bg-white rounded'/>
             </div>
 
             <div className='d-flex justify-content-between mb-1'>
