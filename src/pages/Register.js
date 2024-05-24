@@ -8,11 +8,11 @@ import RegisterNext from '../components/registration/RegisterNext';
 
 const Register = () => {
 
-  const [acceptedOauth, setAcceptedOauth] = useState(true);
+  const [initialRegAccepted, setInitialRegAccepted] = useState(true);
   
   return (
     <>
-      {acceptedOauth ? <RegisterNext /> : <InitialRegistration /> }
+      {initialRegAccepted ? <RegisterNext /> : <InitialRegistration setInitialRegAccepted={setInitialRegAccepted} /> }
     </>
   )
 }
