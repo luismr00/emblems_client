@@ -8,7 +8,7 @@ import RegisterNext from '../components/registration/RegisterNext';
 
 const Register = () => {
 
-  const [initialRegAccepted, setInitialRegAccepted] = useState(true);
+  const [initialRegAccepted, setInitialRegAccepted] = useState(false);
   
   return (
     <>

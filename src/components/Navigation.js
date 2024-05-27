@@ -60,6 +60,15 @@ const Navigation = () => {
 
   }
 
+  const userLogout = () => {
+    dispatch(logout());
+    dispatch(renderProfileNavs());
+    navigate('/login');
+    // dispatch(logout());
+    // dispatch(renderProfileNavs())
+  }
+  
+
   return (
     // <div>
     //     <Link to="/">Home</Link>
@@ -146,7 +155,7 @@ const Navigation = () => {
               <Dropdown.Item>Manage payment information</Dropdown.Item>
               <Dropdown.Item>Event import - TOs ONLY</Dropdown.Item>
               <Dropdown.Divider></Dropdown.Divider>
-              <Dropdown.Item onClick={() => {dispatch(logout()); dispatch(renderProfileNavs())}}>Logout</Dropdown.Item>
+              <Dropdown.Item onClick={userLogout}>Logout</Dropdown.Item>
             </Dropdown.Menu>
           </Dropdown>
           {/* <NavDropdown 

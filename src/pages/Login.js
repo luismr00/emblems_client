@@ -20,7 +20,7 @@ const Login = (e) => {
     dispatch(login());
     // renderProfileNavs
     dispatch(renderProfileNavs());
-    navigate('/');
+    navigate('/dashboard');
     // console.log("Logged state now: " + isLogged);
   }
 

@@ -1,10 +1,12 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Navigation from '../components/Navigation'
 import Widget from '../components/dashboard/Widget';
 import CustomWidget from '../components/dashboard/CustomWidget';
 import { DndContext, KeyboardSensor, PointerSensor, TouchSensor, closestCorners, useSensor, useSensors } from '@dnd-kit/core';
 import { SortableContext, arrayMove, horizontalListSortingStrategy, sortableKeyboardCoordinates } from '@dnd-kit/sortable';
 import { DatePicker } from '@mui/x-date-pickers';
+import { useNavigate } from "react-router-dom";
+import { useSelector } from 'react-redux'
 
 
 const mock_data = [
@@ -203,6 +205,20 @@ const Dashboard = () => {
   const [isAddingWidget, setIsAddingWidget] = useState(false);
   const [widgetSelected, setWidgetSelected] = useState('');
   const [timers, setTimers] = useState(true);
+
+  const logStatus = useSelector((state) => state.auth.isLoggedIn);
+
+  const navigate = useNavigate();
+
+  const isLogged = () => {
+    if (!logStatus) {
+      navigate('/login');
+    }
+  }
+
+  useEffect(() => {
+    isLogged();
+  }, [])
 
   const handleEditClick = () => {
     setIsEditMode(!isEditMode);

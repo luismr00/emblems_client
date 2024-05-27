@@ -1,10 +1,27 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import Navigation from '../components/Navigation'
 import PlayerPH from '../components/PlayerPH'
 import PlayerFilters from '../components/players/PlayerFilters'
 import { trendingPlayers } from '../mock/trendingPlayersData'
+import { useNavigate } from "react-router-dom";
+import { useSelector } from 'react-redux'
 
 const Players = () => {
+
+  const logStatus = useSelector((state) => state.auth.isLoggedIn);
+
+  const navigate = useNavigate();
+
+  const isLogged = () => {
+    if (!logStatus) {
+      navigate('/login');
+    }
+  }
+
+  useEffect(() => {
+    isLogged();
+  }, [])
+
   return (
     <div>
         <Navigation />
