@@ -6,7 +6,8 @@ import { DndContext, KeyboardSensor, PointerSensor, TouchSensor, closestCorners,
 import { SortableContext, arrayMove, horizontalListSortingStrategy, sortableKeyboardCoordinates } from '@dnd-kit/sortable';
 import { DatePicker } from '@mui/x-date-pickers';
 import { useNavigate } from "react-router-dom";
-import { useSelector } from 'react-redux'
+import { useSelector } from 'react-redux';
+import { getCookie } from '../helpers/auth';
 
 
 const mock_data = [
@@ -206,18 +207,19 @@ const Dashboard = () => {
   const [widgetSelected, setWidgetSelected] = useState('');
   const [timers, setTimers] = useState(true);
 
-  const logStatus = useSelector((state) => state.auth.isLoggedIn);
+  // const logStatus = useSelector((state) => state.auth.isLoggedIn);
 
   const navigate = useNavigate();
 
-  const isLogged = () => {
-    if (!logStatus) {
+  const isLoggedIn = () => {
+    const checkCookie = getCookie('token');
+    if(!checkCookie) {
       navigate('/login');
     }
   }
 
   useEffect(() => {
-    isLogged();
+    isLoggedIn();
   }, [])
 
   const handleEditClick = () => {

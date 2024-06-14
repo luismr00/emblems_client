@@ -4,22 +4,24 @@ import PlayerPH from '../components/PlayerPH'
 import PlayerFilters from '../components/players/PlayerFilters'
 import { trendingPlayers } from '../mock/trendingPlayersData'
 import { useNavigate } from "react-router-dom";
-import { useSelector } from 'react-redux'
+import { useSelector } from 'react-redux';
+import { getCookie } from '../helpers/auth';
 
 const Players = () => {
 
-  const logStatus = useSelector((state) => state.auth.isLoggedIn);
+  // const logStatus = useSelector((state) => state.auth.isLoggedIn);
 
   const navigate = useNavigate();
 
-  const isLogged = () => {
-    if (!logStatus) {
+  const isLoggedIn = () => {
+    const checkCookie = getCookie('token');
+    if(!checkCookie) {
       navigate('/login');
     }
   }
 
   useEffect(() => {
-    isLogged();
+    isLoggedIn();
   }, [])
 
   return (

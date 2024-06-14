@@ -17,15 +17,19 @@ import CreditMoneyExchange from "./pages/emblems/CreditMoneyExchange";
 import Wallet from "./pages/emblems/Wallet";
 import TrendsAndInsights from "./pages/emblems/TrendsAndInsights";
 import Dashboard from "./pages/Dashboard";
+import Admin from "./pages/Admin";
+import Register2 from "./pages/Register2";
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/admin" element={<Admin />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/registernext" element={<Register2 />} />
         <Route path="/search" element={<Search />} />
         <Route path="/account/manage" element={<Account />} />
         <Route path="/search" element={<Search />} />

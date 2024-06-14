@@ -2,22 +2,28 @@ import React, {useEffect} from 'react'
 import Navigation from '../components/Navigation';
 import TestWidgetsDnD from '../components/DnD_Tests/TestWidgetsDnD';
 import { useNavigate } from "react-router-dom";
-import { useSelector } from 'react-redux'
+import { useSelector } from 'react-redux';
+import { getCookie } from '../helpers/auth';
 
 const Home = () => {
 
-  const logStatus = useSelector((state) => state.auth.isLoggedIn);
+  // const logStatus = useSelector((state) => state.auth.isLoggedIn);
 
   const navigate = useNavigate();
 
-  const isLogged = () => {
-    if (!logStatus) {
+  const isLoggedIn = () => {
+    // OLD CODE
+    // if (!logStatus) {
+    //   navigate('/login');
+    // }
+    const checkCookie = getCookie('token');
+    if(!checkCookie) {
       navigate('/login');
     }
   }
 
   useEffect(() => {
-    isLogged();
+    isLoggedIn();
   }, [])
 
   return (

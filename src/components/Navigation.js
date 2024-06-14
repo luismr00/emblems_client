@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {useNavigate } from "react-router-dom";
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
@@ -12,20 +12,34 @@ import LoginAndRegisterForm from './LoginAndRegisterForm';
 import { useDispatch, useSelector } from 'react-redux';
 import { logout, renderProfileNavs } from '../store/authSlice';
 import { Dropdown } from 'react-bootstrap';
+import { getCookie, removeCookie, removeLocalStorage } from '../helpers/auth';
 
 const Navigation = () => {
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
   // const logStatus = useSelector((state) => state.auth.isLoggedIn);
-  const showLRNav = useSelector((state) => state.auth.showLRNav);
-  const showProfileNav = useSelector((state) => state.auth.showProfileNav);
+  // const showLRNav = useSelector((state) => state.auth.showLRNav);
+  // const showProfileNav = useSelector((state) => state.auth.showProfileNav);
   // const [showLarForm, setLarShowForm] = useState(false);
   const [searchKeyword, setSearchKeyword] = useState('');
+  const [showLRNav, setShowLRNav] = useState('d-block');
+  const [showProfileNav, setShowProfileNav] = useState('d-none');
 
   // const larForm = () => {
   //   setLarShowForm(true);
   // }
+
+  useEffect(() => {
+    const checkCookie = getCookie('token');
+    if(checkCookie) {
+      setShowProfileNav('d-block');
+      setShowLRNav('d-none');
+    } else {
+      setShowProfileNav('d-none');
+      setShowLRNav('d-block');
+    }
+  }, []);
 
   const pfpButton = React.forwardRef(({children, onClick}, ref) => (
     <a
@@ -60,12 +74,33 @@ const Navigation = () => {
 
   }
 
-  const userLogout = () => {
-    dispatch(logout());
-    dispatch(renderProfileNavs());
-    navigate('/login');
+  const userLogout = async () => {
     // dispatch(logout());
-    // dispatch(renderProfileNavs())
+    // dispatch(renderProfileNavs());
+    // navigate('/login');
+
+    const token = getCookie('token');
+    
+    const response = await fetch('https://testing.emblems.gg/user/Session.php', {
+      method: 'DELETE',
+      headers: {
+        'X-Requested-With': 'XMLHttpRequest',
+        'Authorization': `Bearer ${token}`
+      },
+    });
+
+    const data = await response.json();
+    if(data.status === 'success') {
+      removeCookie('token');
+      removeLocalStorage('user_id');
+      setShowProfileNav('d-none');
+      setShowLRNav('d-block');
+      navigate('/login');
+    } else {
+      alert('Login failed. Check dev tools for more info.');
+      console.log(data);
+    }
+
   }
   
 
