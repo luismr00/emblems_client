@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import { Link } from 'react-router-dom';
@@ -9,19 +9,38 @@ import dayjs from 'dayjs';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import "react-datepicker/dist/react-datepicker.css";
-import Select from 'react-select';
+import Select, {components} from 'react-select';
 import { colors } from '@mui/material';
+import { getCookie } from '../../helpers/auth';
 
 const RegisterNext = () => {
   
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
+  const [preferredName, setPreferred] = useState('');
   const [location, setLocation] = useState('');
+  const [continent, setContinent] = useState('');
+  const [continents, setContinents] = useState([]);
+  const [region, setRegion] = useState('');
+  const [regions, setRegions] = useState([]);
+  const [selectorRegionValue, setSelectorRegionValue] = useState(null);
+  const [stateProvince, setStateProvince] = useState('');
+  const [stateProvinces, setStateProvinces] = useState([]);
+  const [selectorSPValue, setSelectorSPValue] = useState(null);
+  const [city, setCity] = useState('');
   const [DOB, setDOB] = useState(null);
   const [pronouns, setPronouns] = useState('');
   const [errors, setErrors] = useState({});
   const [selectorSubmitted, setSelectorSubmitted] = useState(false);
   const [validated, setValidated] = useState(false);
+  const [namePrivacy, setNamePrivacy] = useState(false);
+  const [dobPrivacy, setDOBPrivacy] = useState(false);
+  const [pronounPrivacy, setPronounPrivacy] = useState(false);
+  const [locationPrivacy1, setLocationPrivacy1] = useState(false);
+  const [locationPrivacy2, setLocationPrivacy2] = useState(false);
+  const [locationPrivacy3, setLocationPrivacy3] = useState(false);
+
+  const token = getCookie('token');
 
   const pronounOptions = [
     { value: 'He/Him', label: 'He/Him' },
@@ -35,6 +54,8 @@ const RegisterNext = () => {
     { value: 'Country 3', label: 'Country 3' },
     { value: 'Country 4', label: 'Country 4' }
   ];
+
+  const invalidRegions = ["Northeast NA", "Southeast NA", "Northwest NA", "Southwest NA", "South NA", "Midwest NA", "United States", "Canada", ''];
 
   const selectorStyles = {
     option: (styles, { isFocused, isSelected }) => {
@@ -52,7 +73,7 @@ const RegisterNext = () => {
                 borderColor: '#FFB65A', // Change hover color based on focus state
                 boxShadow: '0px 0px 3px 2px #FFB65A',
             },
-            backgroundColor: null
+            backgroundColor: 'white',
         };
     },
     indicatorSeparator: (provided) => ({
@@ -155,11 +176,51 @@ const RegisterNext = () => {
     }
   }
 
-  const registerUser = () => {
-    // Send user data to the server with a fetch request
-    console.log('User registered');
-    console.log(firstName, lastName, location, pronouns);
-    console.log(DOB.format('YYYY-MM-DD'));
+  const registerUser = async () => {
+    // // Send user data to the server with a fetch request
+    // console.log('User registered');
+    // console.log(firstName, lastName, preferredName, pronouns);
+    // console.log(DOB.format('YYYY-MM-DD'));
+    // //print out preferred name, city
+    // console.log(location, city);
+    // //print out location privacy options
+    // console.log(locationPrivacy1, locationPrivacy2, locationPrivacy3);
+    // //print out name, dob, pronoun privacy options
+    // console.log(namePrivacy, dobPrivacy, pronounPrivacy);
+    // //get the privacy data
+    // console.log(getPrivacyData());
+    const body = {
+      first: firstName,
+      last: lastName,
+      preferred: preferredName,
+      lid: location,
+      city: city,
+      pronouns: pronouns,
+      birthday: DOB.format('YYYY-MM-DD'),
+      privacy: getPrivacyData()
+    };
+
+    console.log(body);
+
+    const response = await fetch('https://testing.emblems.gg/user/UserDetails.php', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'X-Requested-With': 'XMLHttpRequest',
+        'Authorization': `Bearer ${token}`
+      },
+      body: JSON.stringify(body)
+    });
+
+    const data = await response.json();
+    if(data.status === 'success') {
+      console.log('User registered successfully');
+      console.log(data.message);
+    } else {
+      console.log('User registration failed. Check dev tools for more info.');
+      console.log(data);
+    }
   }
 
 
@@ -172,6 +233,170 @@ const RegisterNext = () => {
       console.log(firstName, lastName, location, DOB, pronouns);
     }
   }
+
+  useEffect(() => {
+    getLocationOptions('continents');
+  }, []);
+
+  useEffect(() => {
+    setRegion('');
+    setSelectorRegionValue(null);
+    setStateProvince('');
+    setSelectorSPValue(null);
+    setCity('');
+    // setLocation(continent);
+    console.log(continent, location);
+    if(continent !== '') {
+      getLocationOptions('regions', continent);
+    }
+  }, [continent]);
+
+  useEffect(() => {
+    setStateProvince('');
+    setSelectorSPValue(null);
+    setCity('');
+    // setLocation(region);
+    console.log(region, location);
+    // if(region !== '' && (region === ("Northeast NA" || "Southeast NA" || "Northwest NA" || "Southwest NA" || "South NA" || "Midwest NA" || "United States" || "Canada"))) {
+    if(region !== '') {
+      getLocationOptions('stateProvinces', region);
+    }
+  }, [region]);
+
+  const optionsConverter = (options) => {
+    const optionsArray = [];
+    //for loop through the options object and return an array of objects with value and label properties 
+    for (const key in options) {
+      console.log(key);
+      if(key === null) 
+        optionsArray.push({ isSeparator: true });
+      else
+        optionsArray.push({ value: options[key], label: key });
+    }
+    return optionsArray;
+  }
+
+  const getPrivacyData = () => {
+    const privacy = []; //array to hold the privacy options name, location, pronouns, and dob in that order. If the privacy value is false, then push 0, else push 1
+    
+    if(namePrivacy === true)
+      privacy.push(1);
+    else 
+      privacy.push(0);
+
+    if (locationPrivacy3 === true) {
+      privacy.push(3 + 1);
+    } else if (locationPrivacy2 === true) {
+      privacy.push(2 + 1);
+    }
+    else if (locationPrivacy1 === true) {
+      privacy.push(1 + 1);
+    } else {
+      privacy.push(0);
+    }
+
+    if(pronounPrivacy === true)
+      privacy.push(1);
+    else 
+      privacy.push(0);
+
+    if(dobPrivacy === true)
+      privacy.push(1);
+    else 
+      privacy.push(0);
+
+    return privacy;
+  }
+
+  const setSelectorVal = (selector, value) => {
+    console.log(selector, value);
+    console.log(location);
+    console.log(stateProvince);
+    console.log(namePrivacy);
+    if(selector === 'region') {
+      setSelectorRegionValue(regions.find(r => r.value === value));
+    } else if (selector === 'stateProvince') {
+      setSelectorSPValue(stateProvinces.find(sp => sp.value === value));
+    }
+  }
+
+  // Define the custom option component
+const CustomOption = (props) => {
+  if (props.data.isSeparator) {
+      return (
+          <div style={{ margin: '8px 0', borderBottom: '5px solid #000000' }}></div>
+      );
+  }
+
+  return <components.Option {...props} />;
+};
+
+  const locationPrivacyHandler = (id) => {
+    //if id is 1 then set locationPrivacy1 to true and set locationPrivacy2 and locationPrivacy3 to false
+    if(id === '1' && !locationPrivacy1) {
+      setLocationPrivacy1(true);
+      setLocationPrivacy2(false);
+      setLocationPrivacy3(false);
+    } 
+    // else if (id === '1' && locationPrivacy1)  {
+    //   setLocationPrivacy1(false);
+    // }
+    //if id is 2 then set locationPrivacy1 and locationPrivacy2 to true and set locationPrivacy3 to false
+    else if(id === '2' && !locationPrivacy2) {
+      setLocationPrivacy1(true);
+      setLocationPrivacy2(true);
+      setLocationPrivacy3(false);
+    } 
+    // else if (id === '2' && locationPrivacy2) {
+    //   setLocationPrivacy1(false);
+    //   setLocationPrivacy2(false);
+    // }
+    //if id is 3 then set locationPrivacy1, locationPrivacy2, and locationPrivacy3 to true
+    else if(id === '3' && !locationPrivacy3) {
+      setLocationPrivacy1(true);
+      setLocationPrivacy2(true);
+      setLocationPrivacy3(true);
+    } 
+    // else if (id === '3' && locationPrivacy3){
+    //   setLocationPrivacy1(false);
+    //   setLocationPrivacy2(false);
+    //   setLocationPrivacy3(false);
+    // }
+    else {
+      setLocationPrivacy1(false);
+      setLocationPrivacy2(false);
+      setLocationPrivacy3(false);
+    }
+
+  }
+
+  const getLocationOptions = async (location, locationParam) => {
+    const response = await fetch(`https://testing.emblems.gg/tables/Region.php?${locationParam ? 'parent=' + locationParam : ''}`, {
+      method: 'GET',
+      headers: {
+        'X-Requested-With': 'XMLHttpRequest',
+        'Authorization': `Bearer ${token}`
+      },
+    });
+
+    const data = await response.json();
+    if(data.status === 'success') {
+      console.log('Location options fetched successfully');
+      console.log(data.message);
+      const options = optionsConverter(data.message);
+      if(location === 'continents') {
+        setContinents(options);
+      } else if(location === 'regions') {
+        setRegions(optionsConverter(data.message[0]));
+      } else if (location === 'stateProvinces') {
+        setStateProvinces(optionsConverter(data.message[0]));
+      }
+    } else {
+      console.log('Unable to fetch location options. Check dev tools for more info.');
+      console.log(data);
+    }
+  }
+
 
   return (
     <div>
@@ -208,16 +433,34 @@ const RegisterNext = () => {
             {/* <Form.Control.Feedback>Looks good!</Form.Control.Feedback> */}
             <Form.Control.Feedback type="invalid">{errors.lastName}</Form.Control.Feedback>
           </Form.Group>
+
+          <Form.Group className="mb-3" controlId="validationCustom02">
+            <Form.Label>Preferred Name (optional)</Form.Label>
+            <Form.Control 
+              required
+              type="text" 
+              placeholder="Enter preferred name" 
+              value={preferredName}
+              onChange={(e) => setPreferred(e.target.value)}
+              // isInvalid={errors.lastName}
+            />
+            {/* <Form.Control.Feedback>Looks good!</Form.Control.Feedback> */}
+            {/* <Form.Control.Feedback type="invalid">{errors.lastName}</Form.Control.Feedback> */}
+          </Form.Group>
           
           <Form.Group className="mb-3" controlId="formBasicCheckbox">
-              <Form.Check type="checkbox" label="Show on public profile" />
+              <Form.Check 
+                type="checkbox" 
+                label="Keep name private public profile" 
+                checked={namePrivacy}
+                onChange={(e) => setNamePrivacy(e.target.checked)}
+              />
           </Form.Group>
 
-          <Form.Group className="mb-3" controlId="validationCustom03">
+          {/* <Form.Group className="mb-3" controlId="validationCustom03"> 
             <Form.Label>Location</Form.Label>
-            {/* <Form.Control type="text" placeholder="Select location" /> */}
 
-            {/* To add your custom css on the form fields, add bsPrefix='nameofclass' to the form component as if it is a class*/}
+            Comment - To add your custom css on the form fields, add bsPrefix='nameofclass' to the form component as if it is a class
             <Form.Select 
               required 
               value={location}
@@ -230,15 +473,139 @@ const RegisterNext = () => {
               <option value="Country 3">Country 3</option>
               <option value="Country 4">Country 4</option>
             </Form.Select>
-            {/* <Form.Control.Feedback>Looks good!</Form.Control.Feedback> */}
             <Form.Control.Feedback type="invalid">{errors.location}</Form.Control.Feedback>
-            {/* <Select className='bg-body rounded' styles={selectorStyles} options={locationOptions}/> */}
 
-          </Form.Group>
+          </Form.Group> */}
 
-          <Form.Group className="mb-3" controlId="formBasicCheckbox">
-              <Form.Check type="checkbox" label="Show on public profile" />
-          </Form.Group>
+          <Form.Label>Location</Form.Label>
+          <p>Select the checkboxes where you'd like parts of your location to remain private</p>
+          <Select 
+            className='mb-2'
+            options={continents}
+            components={{ Option: CustomOption }}
+            styles={selectorStyles}
+            onChange={(option) => {setContinent(option.label); setLocation('')}}
+            // value={continent && Array.isArray(continents) ? continents.find(c => c.value === continent) : undefined}
+            placeholder='Select continent'
+          />
+          
+
+          {/* <Form.Label>Country</Form.Label>   */}
+          {/* {if continent is NOT empty then render the bottom select } */}
+          {continent !== '' ? 
+            <div className='d-flex'>
+              <Select 
+                className='mb-2 flex-grow-1' 
+                options={regions} 
+                components={{ Option: CustomOption }}
+                styles={selectorStyles} 
+                onChange={(option) => {setRegion(option.label); setSelectorVal('region', option.value); setLocation(option.value) }} 
+                value={selectorRegionValue}
+                // value={region && Array.isArray(regions) ? regions.find(c => c.value === region) : undefined}
+                placeholder='Select region'
+              /> 
+              
+              <input
+                id='3'
+                type="checkbox"
+                checked={locationPrivacy3}
+                disabled={region === ''}
+                onChange={(e) => locationPrivacyHandler(e.target.id)}
+                // style={{ display: 'none' }} // Hide the actual checkbox input
+                style={{
+                  marginLeft: '5px', // Add some space between the Select and the checkbox
+                  // marginRight: '10px', // Add some space between the checkbox and the next element
+                  cursor: 'pointer',
+                  width: '38px', // Adjust as needed
+                  height: '38px', // Adjust to match the height of your Select component
+                  // transform: 'scale(2)', // Enlarge the checkbox; adjust scale as needed
+                  // verticalAlign: 'middle', // Align vertically
+                }}
+              />
+            </div>: null
+          }
+
+          {/* <Select 
+            className='mb-2'
+            options={locationOptions}
+            styles={selectorStyles}
+            onChange={(e) => setRegion(e.target.value)}
+            value={region}
+            placeholder='Select country'
+          /> */}
+
+          {/* <Form.Label>Region</Form.Label> */}
+
+          {(region !== '' && (invalidRegions.includes(region))) ? 
+            <div className='d-flex'>
+              <Select 
+                className='mb-2 flex-grow-1'
+                options={stateProvinces}
+                components={{ Option: CustomOption }}
+                styles={selectorStyles}
+                onChange={(option) => {setStateProvince(option.label); setSelectorVal('stateProvince', option.value); setLocation(option.value)}}
+                value={selectorSPValue}
+                // value={stateProvince && Array.isArray(stateProvinces) ? stateProvinces.find(c => c.value === stateProvince) : undefined}
+                placeholder='Select state/province'
+              /> 
+
+              <input
+                id='2'
+                type="checkbox"
+                checked={locationPrivacy2}
+                disabled={stateProvince === ''}
+                onChange={(e) => locationPrivacyHandler(e.target.id)}
+                // style={{ display: 'none' }} // Hide the actual checkbox input
+                style={{
+                  marginLeft: '5px', // Add some space between the Select and the checkbox
+                  // marginRight: '10px', // Add some space between the checkbox and the next element
+                  cursor: 'pointer',
+                  width: '38px', // Adjust as needed
+                  height: '38px', // Adjust to match the height of your Select component
+                  // transform: 'scale(2)', // Enlarge the checkbox; adjust scale as needed
+                  // verticalAlign: 'middle', // Align vertically
+                }}
+              />
+            </div>: null
+          }
+
+          {/* <input className='w-100' type='text' placeholder='Type city location' ></input> */}
+          {((stateProvince !== '') || (!invalidRegions.includes(region))) ? 
+            <div className='d-flex'>
+              <Form.Group className="mb-3 flex-grow-1" controlId="validationCustom01">
+                {/* <Form.Label>City</Form.Label> */}
+                <Form.Control 
+                  required
+                  type="text" 
+                  placeholder="Enter city name (optional)" 
+                  value={city}
+                  onChange={(e) => setCity(e.target.value)}
+                  // isInvalid={errors.firstName}
+                />
+                {/* Add validation to city */}
+                {/* <Form.Control.Feedback type="invalid">{errors.firstName}</Form.Control.Feedback> */}
+              </Form.Group>
+
+              <input
+                id='1'
+                type="checkbox"
+                checked={locationPrivacy1}
+                disabled={city === ''}
+                onChange={(e) => locationPrivacyHandler(e.target.id)}
+                // style={{ display: 'none' }} // Hide the actual checkbox input
+                style={{
+                  marginLeft: '5px', // Add some space between the Select and the checkbox
+                  // marginRight: '10px', // Add some space between the checkbox and the next element
+                  cursor: 'pointer',
+                  width: '38px', // Adjust as needed
+                  height: '38px', // Adjust to match the height of your Select component
+                  // transform: 'scale(2)', // Enlarge the checkbox; adjust scale as needed
+                  // verticalAlign: 'middle', // Align vertically
+                }}
+              /> 
+            </div>
+          : null
+          }
 
           <Form.Group className="mb-3" controlId="validationCustom04">
             <Form.Label>DOB</Form.Label>
@@ -272,7 +639,12 @@ const RegisterNext = () => {
             {errors.DOBError ? null : <Form.Text className="text-danger">{errors.DOB}</Form.Text>}
           </Form.Group>
           <Form.Group className="mb-3" controlId="formBasicCheckbox">
-              <Form.Check type="checkbox" label="Show on public profile" />
+              <Form.Check 
+                type="checkbox" 
+                label="Keep DOB private from public profile" 
+                checked={dobPrivacy}
+                onChange={(e) => setDOBPrivacy(e.target.checked)}
+              />
           </Form.Group>
 
           <Form.Group className="mb-3" controlId="validationCustom05">
@@ -294,7 +666,12 @@ const RegisterNext = () => {
             <Form.Control.Feedback type="invalid">{errors.pronouns}</Form.Control.Feedback>
           </Form.Group>
           <Form.Group className="mb-3" controlId="formBasicCheckbox">
-              <Form.Check type="checkbox" label="Show on public profile" />
+              <Form.Check 
+                type="checkbox" 
+                label="Keep pronouns private from public profile" 
+                checked={pronounPrivacy}
+                onChange={(e) => setPronounPrivacy(e.target.checked)}
+              />
           </Form.Group>
 
           <Button variant="primary" type="submit">
