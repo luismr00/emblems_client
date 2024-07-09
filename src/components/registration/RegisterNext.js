@@ -12,6 +12,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import Select, {components} from 'react-select';
 import { colors } from '@mui/material';
 import { getCookie } from '../../helpers/auth';
+import { useNavigate } from 'react-router-dom';
 
 const RegisterNext = () => {
   
@@ -29,7 +30,7 @@ const RegisterNext = () => {
   const [selectorSPValue, setSelectorSPValue] = useState(null);
   const [city, setCity] = useState('');
   const [DOB, setDOB] = useState(null);
-  const [pronouns, setPronouns] = useState('');
+  const [pronouns, setPronouns] = useState(null);
   const [errors, setErrors] = useState({});
   const [selectorSubmitted, setSelectorSubmitted] = useState(false);
   const [validated, setValidated] = useState(false);
@@ -41,11 +42,16 @@ const RegisterNext = () => {
   const [locationPrivacy3, setLocationPrivacy3] = useState(false);
 
   const token = getCookie('token');
+  const navigate = useNavigate();
 
   const pronounOptions = [
     { value: 'He/Him', label: 'He/Him' },
     { value: 'She/Her', label: 'She/Her' },
-    { value: 'They/Them', label: 'They/Them' }
+    { value: 'They/Them', label: 'They/Them' },
+    { value: 'He/They', label: 'He/They' },
+    { value: 'She/They', label: 'She/They' },
+    { value: 'Any/All', label: 'Any/All' },
+    { value: 'Other', label: 'Other' }
   ];
 
   const locationOptions = [
@@ -108,6 +114,9 @@ const RegisterNext = () => {
   const validateLocation = () => {
     if (!location) {
       return 'Location is required';
+    }
+    if (location === 31 || location === 32) {
+      return 'State/Province is required';
     }
     return '';
   }
@@ -217,6 +226,7 @@ const RegisterNext = () => {
     if(data.status === 'success') {
       console.log('User registered successfully');
       console.log(data.message);
+      navigate('/dashboard');
     } else {
       console.log('User registration failed. Check dev tools for more info.');
       console.log(data);
@@ -231,6 +241,7 @@ const RegisterNext = () => {
     } else {
       console.log('Form has errors');
       console.log(firstName, lastName, location, DOB, pronouns);
+      console.log(errors);
     }
   }
 
@@ -437,7 +448,6 @@ const CustomOption = (props) => {
           <Form.Group className="mb-3" controlId="validationCustom02">
             <Form.Label>Preferred Name (optional)</Form.Label>
             <Form.Control 
-              required
               type="text" 
               placeholder="Enter preferred name" 
               value={preferredName}
@@ -575,7 +585,6 @@ const CustomOption = (props) => {
               <Form.Group className="mb-3 flex-grow-1" controlId="validationCustom01">
                 {/* <Form.Label>City</Form.Label> */}
                 <Form.Control 
-                  required
                   type="text" 
                   placeholder="Enter city name (optional)" 
                   value={city}
@@ -607,6 +616,8 @@ const CustomOption = (props) => {
           : null
           }
 
+          {!errors.location ? null : <Form.Text className="text-danger">{errors.location}</Form.Text>}
+
           <Form.Group className="mb-3" controlId="validationCustom04">
             <Form.Label>DOB</Form.Label>
             {/* <Form.Control type="text" placeholder="Enter date of birth" /> */}
@@ -636,7 +647,7 @@ const CustomOption = (props) => {
                 disableFuture
               />
             </LocalizationProvider>
-            {errors.DOBError ? null : <Form.Text className="text-danger">{errors.DOB}</Form.Text>}
+            {!errors.DOB ? null : <Form.Text className="text-danger">{errors.DOB}</Form.Text>}
           </Form.Group>
           <Form.Group className="mb-3" controlId="formBasicCheckbox">
               <Form.Check 
@@ -651,7 +662,30 @@ const CustomOption = (props) => {
             <Form.Label>Pronouns</Form.Label>
             {/* Style the react bootstrap selector with the one commented below. Uncomment to see how it looks. */}
             {/* <Select className='bg-body rounded' styles={selectorStyles} options={pronounOptions}/> */}
-            <Form.Select 
+
+            {/* <Select 
+                className='mb-2 flex-grow-1'
+                options={stateProvinces}
+                components={{ Option: CustomOption }}
+                styles={selectorStyles}
+                onChange={(option) => {setStateProvince(option.label); setSelectorVal('stateProvince', option.value); setLocation(option.value)}}
+                value={selectorSPValue}
+                // value={stateProvince && Array.isArray(stateProvinces) ? stateProvinces.find(c => c.value === stateProvince) : undefined}
+                placeholder='Select state/province'
+              />  */}
+
+            <Select 
+              className='mb-2 flex-grow-1' 
+              options={pronounOptions} 
+              styles={selectorStyles} 
+              onChange={(option) => setPronouns(option.label)}
+              // value={pronouns}
+              placeholder='Select pronouns'
+              // isInvalid={errors.pronouns}
+              required
+            /> 
+
+            {/* <Form.Select 
               required 
               value={pronouns}
               onChange={(e) => setPronouns(e.target.value)}
@@ -661,9 +695,10 @@ const CustomOption = (props) => {
               <option value="He/Him">He/Him</option>
               <option value="She/Her">She/Her</option>
               <option value="They/Them">They/Them</option>
-            </Form.Select>
+            </Form.Select> */}
             {/* <Form.Control.Feedback>Looks good!</Form.Control.Feedback> */}
-            <Form.Control.Feedback type="invalid">{errors.pronouns}</Form.Control.Feedback>
+            {!errors.pronouns ? null : <Form.Text className="text-danger">{errors.pronouns}</Form.Text>}
+            {/* <Form.Control.Feedback type="invalid">{errors.pronouns}</Form.Control.Feedback> */}
           </Form.Group>
           <Form.Group className="mb-3" controlId="formBasicCheckbox">
               <Form.Check 
