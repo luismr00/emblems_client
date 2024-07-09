@@ -7,6 +7,7 @@ import {useNavigate } from "react-router-dom";
 const InitialRegistration = ({setInitialRegAccepted}) => {
   const [provisionToken, setProvisionToken] = useState('');
   const [username, setUsername] = useState('');
+  const [resultingUsername, setResultingUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [passwordConfirm, setPasswordConfirm] = useState('');
@@ -16,12 +17,13 @@ const InitialRegistration = ({setInitialRegAccepted}) => {
   const navigate = useNavigate();
   
   // These work with reconfirm validation fields after registration is attempted
-  let tokenValid = false;
-  let emailTaken = false;
-  let usernameTaken = false;
+  let invalidToken = false;
+  let invalidEmail = false;
+  let invalidUsername = false;
+
 
   const validateProvisionToken = () => {
-    if (tokenValid) {
+    if (invalidToken) {
       return 'Token is invalid or has been used';
     }
     if (provisionToken.trim() === '') {
@@ -31,23 +33,53 @@ const InitialRegistration = ({setInitialRegAccepted}) => {
   };
 
   const validateUsername = () => {
-    const pattern = /^[a-zA-Z0-9_.-]{3,20}$/;
-    if(usernameTaken) {
+  
+    const pattern = /^(?![_.\s-])([A-Za-z0-9]+[_.\s-]?)*[A-Za-z0-9]{3,20}$/;
+  
+    if (invalidUsername) {
       return 'Username is already taken';
     }
+  
     if (username.trim() === '') {
       return 'Username is required';
     }
-    if (!pattern.test(username)) {
-      return 'Username should be between 3 and 20 characters long and should only contain letters, numbers, underscores, hyphens, and periods';
+  
+    if (username.length < 3 || username.length > 20) {
+      return 'Username should be between 3 and 20 characters long';
     }
+  
+    if (!/^[A-Za-z0-9]/.test(username)) {
+      return 'Username should not start with an underscore, hyphen, space, or period';
+    }
+  
+    if (/[_\s.-]{2,}/.test(username)) {
+      return 'Username should not have consecutive underscores, hyphens, spaces, or periods';
+    }
+  
+    if (/[_.\s-]$/.test(username)) {
+      return 'Username should not end with an underscore, hyphen, space, or period';
+    }
+  
+    const segments = username.split(/\s+/);
+    for (const segment of segments) {
+      if (segment.length < 3) {
+        return 'Each segment of the username separated by spaces must be at least 3 characters long';
+      }
+    }
+  
+    if (!pattern.test(username)) {
+      return 'Username should only contain letters, numbers, underscores, hyphens, spaces, and periods';
+    }
+  
     return '';
   };
+  
+  
 
   const validateEmail = () => {
     const pattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-    if(emailTaken) {
-      return 'Email is already taken';
+    if(invalidEmail) {
+      return 'Posted email does not match the email of the provisioned user';
     }
     if (email.trim() === '') {
       return 'Email is required';
@@ -101,14 +133,12 @@ const InitialRegistration = ({setInitialRegAccepted}) => {
       alert('Registration successful');
       navigate('/login');
     } else {
+      handleErrorResponse(data);
       alert('Registration failed. Check dev tools for more info.');
       console.log('Registration failed. Create UI to display error message whenever you can.');
       console.log(data);
     }
 
-    // Mock response -> if email or username is taken then set to true else set to false
-    // emailTaken = false;
-    // usernameTaken = false;
   };
 
   const validateFields = (event) => {
@@ -161,17 +191,31 @@ const InitialRegistration = ({setInitialRegAccepted}) => {
     }
   };
 
+  const handleErrorResponse = (data) => {
+    // Handle error response here
+    //'1: Username not available.
+    //'2: Invalid user invite token.'
+    //'3: User invite token already claimed.'
+    //'4: Posted email does not match the email of the provisioned user.'
+
+    if(data.message === '1: Username not available.') {
+      invalidUsername = true;
+    } else if(data.message === '2: Invalid user invite token.') {
+      invalidToken = true;
+    } else if(data.message === '3: User invite token already claimed.') {
+      invalidToken = true;
+    } else if(data.message === '4: Posted email does not match the email of the provisioned user.') {
+      invalidEmail = true;
+    }
+
+  };
+
   const confirmUniqueFields = (event) => {
     event.preventDefault();
     const form = event.currentTarget;
 
     let newErrors = {};
     let formIsValid = true;
-
-    console.log('Checking for unique fields...');
-    console.log('Token: ', tokenValid);
-    console.log('Username: ', usernameTaken);
-    console.log('Email: ', emailTaken);
 
     const provisionTokenError = validateProvisionToken();
     if (provisionTokenError) {
@@ -205,9 +249,21 @@ const InitialRegistration = ({setInitialRegAccepted}) => {
   };
 
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     if (validateFields(event)) {
-      registerUser();
+      await registerUser();
+
+      console.log('checking for invalid fields...');
+      console.log('Token: ', invalidToken);
+      console.log('Username: ', invalidUsername);
+      console.log('Email: ', invalidEmail);
+
+      if(invalidToken || invalidEmail || invalidUsername) {
+        confirmUniqueFields(event);
+        invalidEmail = false;
+        invalidToken = false;
+        invalidUsername = false;
+      }
 
       // KEEP THIS LINE BELOW IN CASE YOU NEED IT LATER
       // const uniqueFieldsCheck = confirmUniqueFields(event);
@@ -238,7 +294,7 @@ const InitialRegistration = ({setInitialRegAccepted}) => {
             <Form.Control
               required
               type="text"
-              placeholder="Token"
+              placeholder="Provision Token"
               value={provisionToken}
               onChange={(e) => setProvisionToken(e.target.value)}
               isInvalid={!!errors.provisionToken}
@@ -249,15 +305,19 @@ const InitialRegistration = ({setInitialRegAccepted}) => {
           </Form.Group>
           
           <Form.Group className='mb-3' md="4" controlId="validationCustom01">
-            <Form.Label>Username</Form.Label>
+            <Form.Label>Display Name / Tag</Form.Label>
             <Form.Control
               required
               type="text"
-              placeholder="Username"
+              placeholder="Display Name / Tag"
               value={username}
-              onChange={(e) => setUsername(e.target.value)}
+              onChange={(e) => {setUsername(e.target.value); setResultingUsername(e.target.value.replace(/\s/g, '_').toLowerCase());}}
               isInvalid={!!errors.username}
             />
+            <Form.Text className="text-white">
+              {"Converted username for backend: " + resultingUsername}
+            </Form.Text>
+
             <Form.Control.Feedback type='invalid'>
               {errors.username || 'Please choose a username'}
             </Form.Control.Feedback>

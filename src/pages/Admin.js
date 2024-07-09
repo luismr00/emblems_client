@@ -111,7 +111,7 @@ const Admin = () => {
             <p>Enter an email to provide a user with a token to signin</p>
             <form onSubmit={handleSubmit}>
                 <input type="text" placeholder="Email" style={{width: '500px'}} onChange={e => setEmail(e.target.value)}/>
-                <button type='submit'>Sign In</button>
+                <button type='submit'>Submit</button>
             </form>
             <br></br>
             <br></br>
