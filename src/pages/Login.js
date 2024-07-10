@@ -7,6 +7,7 @@ import { authenticate } from '../helpers/auth';
 import { useSelector, useDispatch } from 'react-redux'
 import { login, renderProfileNavs } from '../store/authSlice';
 import { getCookie } from '../helpers/auth';
+import { API_PREFIX } from '../config';
 
 
 const Login = (e) => {
@@ -38,7 +39,7 @@ const Login = (e) => {
   }
 
   const getUserDetails = async (token, id) => {
-    const response = await fetch(`https://testing.emblems.gg/user/UserDetails.php?id=${id}`, {
+    const response = await fetch(`${API_PREFIX}/user/UserDetails.php?id=${id}`, {
       method: 'GET',
       headers: {
         'X-Requested-With': 'XMLHttpRequest',
@@ -60,7 +61,7 @@ const Login = (e) => {
   }
 
   const signIn = async () => {
-    const response = await fetch('https://testing.emblems.gg/user/Session.php', {
+    const response = await fetch(`${API_PREFIX}/user/Session.php`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

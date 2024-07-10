@@ -13,6 +13,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { logout, renderProfileNavs } from '../store/authSlice';
 import { Dropdown } from 'react-bootstrap';
 import { getCookie, removeCookie, removeLocalStorage } from '../helpers/auth';
+import { API_PREFIX } from '../config';
 
 const Navigation = () => {
 
@@ -81,7 +82,7 @@ const Navigation = () => {
 
     const token = getCookie('token');
     
-    const response = await fetch('https://testing.emblems.gg/user/Session.php', {
+    const response = await fetch(`${API_PREFIX}/user/Session.php`, {
       method: 'DELETE',
       headers: {
         'X-Requested-With': 'XMLHttpRequest',

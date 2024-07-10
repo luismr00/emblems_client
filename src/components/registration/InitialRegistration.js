@@ -3,6 +3,7 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import { Link } from 'react-router-dom';
 import {useNavigate } from "react-router-dom";
+import { API_PREFIX } from '../../config';
 
 const InitialRegistration = ({setInitialRegAccepted}) => {
   const [provisionToken, setProvisionToken] = useState('');
@@ -113,7 +114,7 @@ const InitialRegistration = ({setInitialRegAccepted}) => {
 
   const registerUser = async () => {
     // Register user fetch function here
-    const response = await fetch('https://testing.emblems.gg/user/Register.php', {
+    const response = await fetch(`${API_PREFIX}/user/Register.php`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

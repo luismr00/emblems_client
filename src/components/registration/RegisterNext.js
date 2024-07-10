@@ -13,6 +13,7 @@ import Select, {components} from 'react-select';
 import { colors } from '@mui/material';
 import { getCookie } from '../../helpers/auth';
 import { useNavigate } from 'react-router-dom';
+import { API_PREFIX } from '../../config';
 
 const RegisterNext = () => {
   
@@ -211,7 +212,7 @@ const RegisterNext = () => {
 
     console.log(body);
 
-    const response = await fetch('https://testing.emblems.gg/user/UserDetails.php', {
+    const response = await fetch(`${API_PREFIX}/user/UserDetails.php`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -382,7 +383,7 @@ const CustomOption = (props) => {
   }
 
   const getLocationOptions = async (location, locationParam) => {
-    const response = await fetch(`https://testing.emblems.gg/tables/Region.php?${locationParam ? 'parent=' + locationParam : ''}`, {
+    const response = await fetch(`${API_PREFIX}/tables/Region.php?${locationParam ? 'parent=' + locationParam : ''}`, {
       method: 'GET',
       headers: {
         'X-Requested-With': 'XMLHttpRequest',

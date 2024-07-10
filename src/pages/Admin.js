@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import Navigation from '../components/Navigation'
 import { getCookie } from '../helpers/auth';
 import { useNavigate } from 'react-router-dom';
+import { API_PREFIX } from '../config';
 
 const Admin = () => {
 
@@ -23,7 +24,7 @@ const Admin = () => {
     };
 
     const getRole = async (token) => {
-        const response = await fetch('https://testing.emblems.gg/user/Session.php', {
+        const response = await fetch(`${API_PREFIX}/user/Session.php`, {
             method: 'GET',
             headers: {
                 'X-Requested-With': 'XMLHttpRequest',
@@ -52,7 +53,7 @@ const Admin = () => {
 
     const ProvideUser = async (token) => {
         console.log('Providing user');
-        const response = await fetch('https://testing.emblems.gg/user/ProvisionUser.php', {
+        const response = await fetch(`${API_PREFIX}/user/ProvisionUser.php`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

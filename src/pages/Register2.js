@@ -3,13 +3,14 @@ import Navigation from '../components/Navigation'
 import RegisterNext from '../components/registration/RegisterNext'
 import { getCookie, isAuth } from '../helpers/auth';
 import { useNavigate } from "react-router-dom";
+import { API_PREFIX } from '../config';
 
 const Register2 = () => {
 
     const navigate = useNavigate();
 
     const getUserDetails = async (token, id) => {
-        const response = await fetch(`https://testing.emblems.gg/user/UserDetails.php?id=${id}`, {
+        const response = await fetch(`${API_PREFIX}/user/UserDetails.php?id=${id}`, {
           method: 'GET',
           headers: {
             'X-Requested-With': 'XMLHttpRequest',
