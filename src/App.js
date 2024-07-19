@@ -19,6 +19,8 @@ import TrendsAndInsights from "./pages/emblems/TrendsAndInsights";
 import Dashboard from "./pages/Dashboard";
 import Admin from "./pages/Admin";
 import Register2 from "./pages/Register2";
+import ListviewAll from "./pages/listview/ListviewAll";
+import ListviewPlayers from "./pages/listview/ListviewPlayers";
 
 function App() {
   return (
@@ -32,7 +34,6 @@ function App() {
         <Route path="/registernext" element={<Register2 />} />
         <Route path="/search" element={<Search />} />
         <Route path="/account/manage" element={<Account />} />
-        <Route path="/search" element={<Search />} />
         <Route path="/players" element={<Players />} />
         <Route path="/players/player-summary/:id" element={<PlayerSummary />} />
         <Route path="/events" element={<Events />} />
@@ -44,6 +45,8 @@ function App() {
         <Route path="/emblems/credit-money-exchange" element={<CreditMoneyExchange />} />
         <Route path="/emblems/wallet" element={<Wallet />} />
         <Route path="/emblems/trends-and-insights" element={<TrendsAndInsights />} />
+        <Route path="/listview/all" element={<ListviewAll />} />
+        <Route path="/listview/players" element={<ListviewPlayers />} />
       </Routes>
     </BrowserRouter>
   );
