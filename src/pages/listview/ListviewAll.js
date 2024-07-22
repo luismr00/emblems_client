@@ -1,9 +1,12 @@
 import React, {useEffect, useState} from 'react'
 import Navigation from '../../components/Navigation'
+import { useNavigate } from 'react-router-dom';
 
 const ListviewAll = () => {
 
     const [next, setNext] = useState(1);
+
+    const navigate = useNavigate();
 
     const mock_data = [
         {
@@ -95,6 +98,16 @@ const ListviewAll = () => {
         return mock_data.slice((next - 1) * 10, next * 10);
     }
 
+    const handleSearch = (type) => {
+        if (type === "new") {
+            navigate('/search');
+        } else {
+            // This is where you will attach the search parameters to the URL that you got from the search page
+            // navigate('/search');
+            console.log("Edit Search to be added soon");
+        }
+    }
+
     useEffect(() => {
         handleList();
     }, [next]);
@@ -107,8 +120,8 @@ const ListviewAll = () => {
             <div className='container'>
                 {/* <h1 className='text-center'>Listview All</h1> */}
                 <div className='d-flex justify-content-center mt-5 mb-4'>
-                    <button type='button' className='btn bg-info text-white rounded-0 ms-2 me-2' style={{width: '150px'}}>New Search</button>
-                    <button type='button' className='btn bg-info text-white rounded-0 ms-2 me-2' style={{width: '150px'}}>Edit Search</button>
+                    <button type='button' className='btn bg-info text-white rounded-0 ms-2 me-2' style={{width: '150px'}} onClick={() => handleSearch("new")}>New Search</button>
+                    <button type='button' className='btn bg-info text-white rounded-0 ms-2 me-2' style={{width: '150px'}} onClick={() => handleSearch("edit")}>Edit Search</button>
                 </div>
 
                 {/* Apply a grid with the use of bootstrap that takes 3 different cols: search result, type, and info */}
@@ -146,9 +159,9 @@ const ListviewAll = () => {
 
                 {/* add a prev button, the next state, and a next button to control the pagination */}
                 <div className='d-flex justify-content-center mt-4'>
-                    <button type='button' className='btn bg-info text-white rounded-0 me-4' style={{width: '80px'}} onClick={handlePrev}>&#8592;</button>
+                    <button type='button' className='btn bg-info text-white rounded-0 me-4' style={{width: '80px'}} onClick={handlePrev} disabled={next === 1}>&#8592;</button>
                     <p className='mt-2'>{next} of {numberOfPages}</p>
-                    <button type='button' className='btn bg-info text-white rounded-0 ms-4' style={{width: '80px'}} onClick={handleNext}>&#8594;</button>
+                    <button type='button' className='btn bg-info text-white rounded-0 ms-4' style={{width: '80px'}} onClick={handleNext} disabled={next === numberOfPages}>&#8594;</button>
                 </div>
 
                 {/* <div className='d-flex justify-content-center'>
